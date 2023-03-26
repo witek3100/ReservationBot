@@ -1,12 +1,10 @@
+import time
 from datetime import datetime
+from urllib.request import urlopen
 from selenium import webdriver
 from selenium.webdriver.common.by import By
 
-def script():
-    eml = input('Email do dsnet: ')
-    passwd = input('Haslo do dsnet: ')
-    date = input('rezerwowana data (RRRR-MM-DD): ')
-
+def script(eml, passwd, date):
     driverB = webdriver.Chrome('\chromedriver')
     driverC = webdriver.Chrome('\chromedriver')
 
@@ -36,4 +34,13 @@ def script():
     rez_button.click()
 
 if __name__ == "__main__":
-    script()
+    email = input('Email do dsnet: ')
+    password = input('Haslo do dsnet: ')
+    date = input('rezerwowana data (RRRR-MM-DD): ')
+    while(1):
+        res = urlopen('http://just-the-time.appspot.com/')
+        result = res.read().strip()
+        if result[11:16] == '06:01':
+            script(email, password, date)
+            break
+        time.sleep(1)
