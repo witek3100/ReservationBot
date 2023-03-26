@@ -1,4 +1,3 @@
-import time
 from datetime import datetime
 from selenium import webdriver
 from selenium.webdriver.common.by import By
@@ -35,8 +34,6 @@ def script():
     driverC.get('https://panel.dsnet.agh.edu.pl/reserv/rezerwuj/2194')
     rez_button = driverC.find_element(By.ID, "r_2194_2130_{}".format(date))
     rez_button.click()
-
-    time.sleep(1000)
 
 if __name__ == "__main__":
     script()
