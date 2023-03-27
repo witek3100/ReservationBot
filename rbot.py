@@ -9,7 +9,7 @@ def script(eml, passwd, date):
         res = urlopen('http://just-the-time.appspot.com/')
         result = str(res.read().strip())
         hour = result[13:18]
-        if hour == '12:46':
+        if hour == '03:58':
             driver = webdriver.Chrome('\chromedriver')
             driver.get('https://panel.dsnet.agh.edu.pl/')
             email = driver.find_element(By.ID, "username")
@@ -22,10 +22,9 @@ def script(eml, passwd, date):
                 res = urlopen('http://just-the-time.appspot.com/')
                 result = str(res.read().strip())
                 hour = result[13:18]
-                if hour == '12:47':
+                if hour == '04:01':
                     driver.get('https://panel.dsnet.agh.edu.pl/reserv/rezerwujGrupe/2192')
-                    buttons_ids_dict = {2677:'22:30', 2676:'21:00', 2675:'19:30', 2674:'18:00', 2673:'16:30',
-                                        2137:'22:30', 2136:'21:00', 2135:'19:30', 2134:'18:00', 2133:'16:30'}
+                    buttons_ids_dict = {2677:'22:30', 2676:'21:00', 2675:'19:30', 2137:'22:30', 2136:'21:00', 2135:'19:30', 2134:'18:00', 2133:'16:30'}
                     for button_id in buttons_ids_dict.keys():
                         try:
                             buttonB = driver.find_element(By.ID, "r_2193_{}_{}".format(button_id, date))
