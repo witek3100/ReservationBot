@@ -9,7 +9,7 @@ def script(eml, passwd, date):
         res = urlopen('http://just-the-time.appspot.com/')
         result = str(res.read().strip())
         hour = result[13:18]
-        if hour == "03:56":
+        if hour == '12:46':
             driver = webdriver.Chrome('\chromedriver')
             driver.get('https://panel.dsnet.agh.edu.pl/')
             email = driver.find_element(By.ID, "username")
@@ -22,42 +22,44 @@ def script(eml, passwd, date):
                 res = urlopen('http://just-the-time.appspot.com/')
                 result = str(res.read().strip())
                 hour = result[13:18]
-                if hour:
+                if hour == '12:47':
                     driver.get('https://panel.dsnet.agh.edu.pl/reserv/rezerwujGrupe/2192')
-                    buttons_ids = [2677, 2676]
-                    for button_id in buttons_ids:
+                    buttons_ids_dict = {2677:'22:30', 2676:'21:00', 2675:'19:30', 2674:'18:00', 2673:'16:30',
+                                        2137:'22:30', 2136:'21:00', 2135:'19:30', 2134:'18:00', 2133:'16:30'}
+                    for button_id in buttons_ids_dict.keys():
                         try:
                             buttonB = driver.find_element(By.ID, "r_2193_{}_{}".format(button_id, date))
                             buttonC = driver.find_element(By.ID, "r_2194_{}_{}".format(button_id, date))
                         except selenium.common.exceptions.NoSuchElementException:
+                            print('cale boisko: {} zajete'.format(buttons_ids_dict[button_id]))
                             continue
                         else:
                             buttonB.click()
                             buttonC.click()
-                            print('zarezerwowane cale boisko')
+                            print('ZAREZERWOWANE CALE {}'.format(buttons_ids_dict[button_id]))
                             return 0
-                    for button_id in buttons_ids:
+                    for button_id in buttons_ids_dict.keys():
                         try:
                             buttonB = driver.find_element(By.ID, "r_2193_{}_{}".format(button_id, date))
                         except selenium.common.exceptions.NoSuchElementException:
-                            pass
+                            print('polowka B: {} zajete'.format(buttons_ids_dict[button_id]))
                         else:
                             buttonB.click()
-                            print('zarezerwowana polowka')
+                            print('ZAREZERWOWANA POLOWKA {}'.format(buttons_ids_dict[button_id]))
                             return 0
                         try:
                             buttonC = driver.find_element(By.ID, "r_2193_{}_{}".format(button_id, date))
                         except selenium.common.exceptions.NoSuchElementException:
-                            pass
+                            print('polowka C: {} zajete'.format(buttons_ids_dict[button_id]))
                         else:
                             buttonC.click()
-                            print('zarezerwowana polowka')
+                            print('ZAREZERWOWANA POLOWKA {}'.format(buttons_ids_dict[button_id]))
                             return 0
                     print('nie udalo sie zarezerwowac')
                     return 1
 
         if result[17:20] == '0:0':
-            print('{} wszystko git, czekam na 06:01...'.format(hour))
+            print('{} - oczekiwanie na otwarcie rezerwacji...'.format(hour))
         time.sleep(1)
 
 if __name__ == "__main__":
