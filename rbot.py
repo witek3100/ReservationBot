@@ -26,21 +26,25 @@ def script(eml, passwd, date):
     login_button = driverC.find_element(By.CLASS_NAME, 'btn-success')
     login_button.click()
 
-    driverB.get('https://panel.dsnet.agh.edu.pl/reserv/rezerwuj/2193')
-    rez_button = driverB.find_element(By.ID, "r_2193_2130_{}".format(date))
-    rez_button.click()
-    driverC.get('https://panel.dsnet.agh.edu.pl/reserv/rezerwuj/2194')
-    rez_button = driverC.find_element(By.ID, "r_2194_2130_{}".format(date))
-    rez_button.click()
+    while (1):
+        res = urlopen('http://just-the-time.appspot.com/')
+        result = str(res.read().strip())
+        hour = result[13:18]
+        if hour == '05:38':
+            driverB.get('https://panel.dsnet.agh.edu.pl/reserv/rezerwuj/2193')
+            rez_button = driverB.find_element(By.ID, "r_2193_2677_{}".format(date))
+            rez_button.click()
+            driverC.get('https://panel.dsnet.agh.edu.pl/reserv/rezerwuj/2194')
+            rez_button = driverC.find_element(By.ID, "r_2194_2677_{}".format(date))
+            rez_button.click()
+        if result[17:20] == '0:0':
+            print('{} wszystko git, czekam na 06:01...'.format(hour))
+        time.sleep(1)
+
+
 
 if __name__ == "__main__":
-    email = input('Email do dsnet: ')
-    password = input('Haslo do dsnet: ')
+    email = ''
+    password = ''
     date = input('rezerwowana data (RRRR-MM-DD): ')
-    while(1):
-        res = urlopen('http://just-the-time.appspot.com/')
-        result = res.read().strip()
-        if result[11:16] == '06:01':
-            script(email, password, date)
-            break
-        time.sleep(1)
+    script(email, password, date)
