@@ -62,7 +62,7 @@ def script(eml, passwd, date):
         time.sleep(1)
 
 if __name__ == "__main__":
-    email = 'nowogorski@student.agh.edu.pl'
-    password = 'nihospif8F'
+    email = ''
+    password = ''
     date = input('rezerwowana data (RRRR-MM-DD): ')
     script(email, password, date)
